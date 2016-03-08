@@ -13,6 +13,10 @@ describe Oystercard do
     it 'will begin with a nil entry station' do
       expect(oystercard.entry_station).to eq nil
     end
+
+    it 'will begin with an empty journey_history' do
+      expect(oystercard.journeys).to eq []
+    end
   end
 
   describe "#top_up" do
@@ -43,7 +47,6 @@ describe Oystercard do
   end
 
   describe "#touch_out" do
-    it { is_expected.to respond_to(:touch_out) }
     it 'changes in_journey to false' do
       oystercard10
       oystercard.touch_in(station)
@@ -61,6 +64,7 @@ describe Oystercard do
       expect(oystercard.entry_station).to eq nil
     end
 
+ # describe '#journey_history'
+ # end
   end
-
 end
