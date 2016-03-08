@@ -3,18 +3,28 @@ describe Oystercard do
   subject(:oystercard) { described_class.new }
   let(:Oystercard) { described_class }
 
-  it {is_expected.to respond_to(:top_up).with(1).argument}
-
-  it 'will begin with a balance of 0' do
-    expect(oystercard.balance).to eq 0
+  describe "#initialize" do
+    it 'will begin with a balance of 0' do
+      expect(oystercard.balance).to eq 0
+    end
   end
 
-  it 'will increase the balance by the specified amount' do
-    expect{ oystercard.top_up 20 }.to change{ subject.balance }.by 20
+  describe "#top_up" do
+    it 'will increase the balance by the specified amount' do
+      expect{ oystercard.top_up 20 }.to change{ oystercard.balance }.by(20)
+    end
+
+    it 'will raise error "TOO MUCH MONEY" if topping up exceeds card limit' do
+      expect{ oystercard.top_up(Oystercard::CARD_LIMIT + 1)}.to raise_error("TOO MUCH MONEY - limit is £#{Oystercard::CARD_LIMIT}")
+    end
   end
 
-  it 'will raise error "TOO MUCH MONEY" if topping up exceeds card limit' do
-    expect{ oystercard.top_up(Oystercard::CARD_LIMIT + 1)}.to raise_error("TOO MUCH MONEY")
+  describe "#deduct" do
+    it 'will decrease the balance by the specified amount' do
+      expect{ oystercard.deduct(10) }.to change{ oystercard.balance }.by(-10)
+    end
+
   end
+
 
 end
