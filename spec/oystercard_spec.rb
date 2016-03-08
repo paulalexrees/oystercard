@@ -1,6 +1,7 @@
 require 'oystercard'
 describe Oystercard do
   subject(:oystercard) { described_class.new }
+  let(:Oystercard) { described_class }
 
   it {is_expected.to respond_to(:top_up).with(1).argument}
 
@@ -13,7 +14,7 @@ describe Oystercard do
   end
 
   it 'will raise error "TOO MUCH MONEY" if topping up exceeds card limit' do
-    expect{ oystercard.top_up(1000000)}.to raise_error("TOO MUCH MONEY")
+    expect{ oystercard.top_up(Oystercard::CARD_LIMIT + 1)}.to raise_error("TOO MUCH MONEY")
   end
 
 end
