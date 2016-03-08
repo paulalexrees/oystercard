@@ -11,7 +11,7 @@ describe Oystercard do
     end
 
     it 'will begin with a nil entry station' do
-      expect(oystercard.entry_station).to eq nil 
+      expect(oystercard.entry_station).to eq nil
     end
   end
 
@@ -26,7 +26,11 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in).with(1).argument }
+    it 'saves the entry station' do
+      oystercard10
+      oystercard.touch_in(station)
+      expect(oystercard.entry_station).to eq(station)
+    end
 
     it 'changes in_journey to true' do
       oystercard10
@@ -47,9 +51,16 @@ describe Oystercard do
     end
 
     it 'deducts the fare' do
-      expect {oystercard.touch_out }.to change { oystercard.balance }.by -(Oystercard::MIN_FARE)
+      expect{ oystercard.touch_out }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
+    end
+
+    it 'forgets entry station on touching out' do
+      oystercard10
+      oystercard.touch_in(station)
+      oystercard.touch_out
+      expect(oystercard.entry_station).to eq nil
     end
 
   end
-  
+
 end

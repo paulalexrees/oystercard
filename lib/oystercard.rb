@@ -18,11 +18,13 @@ class Oystercard
 
   def touch_in(station)
     raise "YOU TOO PO" if balance < MIN_FARE
+    @entry_station = station
     @in_journey = true
   end
 
   def touch_out
     deduct(MIN_FARE)
+    @entry_station = nil
     @in_journey = false
   end
 

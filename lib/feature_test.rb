@@ -10,4 +10,5 @@ p oyster.touch_in(station)
 p oyster.entry_station
 
 p oyster.touch_out
+p oyster.entry_station
 p oyster.in_journey?
