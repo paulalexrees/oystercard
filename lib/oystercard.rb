@@ -1,7 +1,7 @@
 class Oystercard
 
   attr_reader :balance
-  MIN_BALANCE = 1
+  MIN_FARE = 1
   CARD_LIMIT = 90
 
   def initialize
@@ -19,7 +19,7 @@ class Oystercard
   end
 
   def touch_in
-    raise "YOU TOO PO" if balance < MIN_BALANCE
+    raise "YOU TOO PO" if balance < MIN_FARE
     @in_journey = true
   end
 

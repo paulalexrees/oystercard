@@ -44,7 +44,11 @@ describe Oystercard do
       oystercard.touch_in
       expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
-
+    
+    it 'deducts the fare' do 
+      expect {oystercard.touch_out }.to change { oystercard.balance }.by -(Oystercard::MIN_FARE)
+    end
+  
   end
 
 

@@ -3,7 +3,6 @@ require './lib/oystercard'
 p oyster = Oystercard.new
 
 p oyster.balance
-p oyster.touch_in
 
 p oyster.top_up(90)
 p oyster.deduct(5)
