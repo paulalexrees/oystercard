@@ -26,5 +26,22 @@ describe Oystercard do
 
   end
 
+  describe "#touch_in" do
+    it { is_expected.to respond_to(:touch_in) }
 
+    it 'changes in_journey to true' do
+      expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.from(false).to(true)
+    end
+
+  end
+
+  describe "#touch_out" do
+    it { is_expected.to respond_to(:touch_out) }
+  end
+    
+  describe "#in_journey?" do
+    it { is_expected.to respond_to(:in_journey?) }
+  end
+
+  
 end
