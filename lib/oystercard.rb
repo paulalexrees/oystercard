@@ -7,7 +7,6 @@ class Oystercard
   def initialize
     @balance = 0
     @entry_station = nil
-    @exit_station = nil
     @journeys = []
   end
 
@@ -24,7 +23,6 @@ class Oystercard
   def touch_out
     deduct(MIN_FARE)
     @entry_station = nil
-    @exit_station = station
   end
 
   def in_journey?
