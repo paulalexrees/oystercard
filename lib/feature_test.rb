@@ -4,4 +4,4 @@ p oyster = Oystercard.new
 
 p oyster.balance
 
-p oyster.top_up
+p oyster.top_up(1000)

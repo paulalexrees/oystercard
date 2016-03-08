@@ -7,6 +7,7 @@ def initialize
 end
 
 def top_up(amount)
+  raise "TOO MUCH MONEY" if @balance + amount > 90
   @balance += amount
 end
 end
