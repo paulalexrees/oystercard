@@ -14,9 +14,9 @@ describe Oystercard do
       expect(oystercard.entry_station).to eq nil
     end
 
-    it 'will begin with a nil exit station' do
-      expect(oystercard.exit_station).to eq nil
-    end
+    # it 'will begin with a nil exit station' do
+    #   expect(oystercard.exit_station).to eq nil
+    # end
 
     it 'will begin with an empty journey_history' do
       expect(oystercard.journeys).to eq []
@@ -61,17 +61,17 @@ describe Oystercard do
     it 'changes in_journey to false' do
       oystercard10
       oystercard.touch_in(station)
-      expect{ oystercard.touch_out(station) }.to change{ oystercard.in_journey? }.from(true).to(false)
+      expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
 
     it 'deducts the fare' do
-      expect{ oystercard.touch_out(station) }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
+      expect{ oystercard.touch_out }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
     end
 
     it 'forgets entry station on touching out' do
       oystercard10
       oystercard.touch_in(station)
-      oystercard.touch_out(station)
+      oystercard.touch_out
       expect(oystercard.entry_station).to eq nil
     end
 
