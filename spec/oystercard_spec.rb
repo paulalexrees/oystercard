@@ -29,14 +29,19 @@ describe Oystercard do
     it 'changes in_journey to true' do
       expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.from(false).to(true)
     end
-  end
 
+    it 'will raise error if balance is below min balance.' do
+      expect{ oystercard.touch_in }.to raise_error("YOU TOO PO")
+    end
+  end
+    
   describe "#touch_out" do
     it { is_expected.to respond_to(:touch_out) }
     it 'changes in_journey to false' do
       oystercard.touch_in
       expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
+  
   end
 
 

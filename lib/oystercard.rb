@@ -19,6 +19,7 @@ class Oystercard
   end
 
   def touch_in
+    raise "YOU TOO PO" if @balance < 1
     @in_journey = true
   end
 
