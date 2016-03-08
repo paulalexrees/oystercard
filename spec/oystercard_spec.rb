@@ -50,17 +50,17 @@ describe Oystercard do
     it 'changes in_journey to false' do
       oystercard10
       oystercard.touch_in(station)
-      expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
+      expect{ oystercard.touch_out(station) }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
 
     it 'deducts the fare' do
-      expect{ oystercard.touch_out }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
+      expect{ oystercard.touch_out(station) }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
     end
 
     it 'forgets entry station on touching out' do
       oystercard10
       oystercard.touch_in(station)
-      oystercard.touch_out
+      oystercard.touch_out(station)
       expect(oystercard.entry_station).to eq nil
     end
 
