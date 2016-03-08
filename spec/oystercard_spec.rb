@@ -1,6 +1,7 @@
 require 'oystercard'
 describe Oystercard do
   subject(:oystercard) { described_class.new }
+  let(:oystercard10) { allow(oystercard).to receive(:balance){ 10 } }
   let(:Oystercard) { described_class }
 
   describe "#initialize" do
@@ -27,6 +28,7 @@ describe Oystercard do
 
   describe "#touch_in" do
     it 'changes in_journey to true' do
+      oystercard10
       expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.from(false).to(true)
     end
 
@@ -34,14 +36,15 @@ describe Oystercard do
       expect{ oystercard.touch_in }.to raise_error("YOU TOO PO")
     end
   end
-    
+
   describe "#touch_out" do
     it { is_expected.to respond_to(:touch_out) }
     it 'changes in_journey to false' do
+      oystercard10
       oystercard.touch_in
       expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
-  
+
   end
 
 

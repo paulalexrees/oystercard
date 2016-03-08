@@ -1,7 +1,7 @@
 class Oystercard
 
   attr_reader :balance
-
+  MIN_BALANCE = 1
   CARD_LIMIT = 90
 
   def initialize
@@ -10,7 +10,7 @@ class Oystercard
   end
 
   def top_up(amount)
-    raise "TOO MUCH MONEY - limit is £#{CARD_LIMIT}" if @balance + amount > CARD_LIMIT
+    raise "TOO MUCH MONEY - limit is £#{CARD_LIMIT}" if balance + amount > CARD_LIMIT
     @balance += amount
   end
 
@@ -19,7 +19,7 @@ class Oystercard
   end
 
   def touch_in
-    raise "YOU TOO PO" if @balance < 1
+    raise "YOU TOO PO" if balance < MIN_BALANCE
     @in_journey = true
   end
 
