@@ -3,10 +3,15 @@ describe Oystercard do
   subject(:oystercard) { described_class.new }
   let(:oystercard10) { allow(oystercard).to receive(:balance){ 10 } }
   let(:Oystercard) { described_class }
+  let(:station) { double :station }
 
   describe "#initialize" do
     it 'will begin with a balance of 0' do
       expect(oystercard.balance).to eq 0
+    end
+
+    it 'will begin with a nil entry station' do
+      expect(oystercard.entry_station).to eq nil 
     end
   end
 
@@ -21,13 +26,15 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
+    it { is_expected.to respond_to(:touch_in).with(1).argument }
+
     it 'changes in_journey to true' do
       oystercard10
-      expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.from(false).to(true)
+      expect{ oystercard.touch_in(station) }.to change{ oystercard.in_journey? }.from(false).to(true)
     end
 
     it 'will raise error if balance is below min balance.' do
-      expect{ oystercard.touch_in }.to raise_error("YOU TOO PO")
+      expect{ oystercard.touch_in(station) }.to raise_error("YOU TOO PO")
     end
   end
 
@@ -35,7 +42,7 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_out) }
     it 'changes in_journey to false' do
       oystercard10
-      oystercard.touch_in
+      oystercard.touch_in(station)
       expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
     end
 
@@ -44,5 +51,5 @@ describe Oystercard do
     end
 
   end
-
+  
 end
