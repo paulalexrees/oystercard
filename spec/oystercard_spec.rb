@@ -23,25 +23,22 @@ describe Oystercard do
     it 'will decrease the balance by the specified amount' do
       expect{ oystercard.deduct(10) }.to change{ oystercard.balance }.by(-10)
     end
-
   end
 
   describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in) }
-
     it 'changes in_journey to true' do
       expect{ oystercard.touch_in }.to change{ oystercard.in_journey? }.from(false).to(true)
     end
-
   end
 
   describe "#touch_out" do
     it { is_expected.to respond_to(:touch_out) }
-  end
-    
-  describe "#in_journey?" do
-    it { is_expected.to respond_to(:in_journey?) }
+    it 'changes in_journey to false' do
+      oystercard.touch_in
+      expect{ oystercard.touch_out }.to change{ oystercard.in_journey? }.from(true).to(false)
+    end
   end
 
-  
+
+
 end
