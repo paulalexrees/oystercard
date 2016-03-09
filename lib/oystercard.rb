@@ -38,11 +38,12 @@ DEFAULT_BALANCE = 0
       journey.end_journey(station)
       @in_journey = false
       deduct(journey.fare)
-      @journey_history << journey
+      @journey_history << journey.dup
       journey.clear_journey
     else
       journey.end_journey(station)
       deduct(journey.fare)
+      @journey_history << journey.dup
       journey.clear_journey
     end
   end

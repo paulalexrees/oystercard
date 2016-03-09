@@ -1,6 +1,7 @@
 require 'oystercard'
 describe Oystercard do
   subject(:oystercard) { described_class.new }
+  let(:journey){ double :journey }
   let(:station){ double :station }
   let(:station2){ double :station }
   let(:topped){ allow(oystercard).to receive(:balance){20}}
@@ -44,10 +45,10 @@ describe Oystercard do
 
   describe "#touch in" do
 
-    it 'should start a new journey when not in a journey' do
+    it 'should tell journey to start a new journey' do
       topped
+      expect(oystercard.journey).to receive(:start_journey)
       oystercard.touch_in(station)
-      expect(oystercard.in_journey?).to be true
     end
 
     it 'should prevent journey if balance is under 1 pound' do
@@ -69,10 +70,13 @@ describe Oystercard do
       expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by (-1)
     end
 
-    xit 'should complete journey history' do
-      topped_completed
-      expect(oystercard.journey_history[0]).to eq({entry:station, exit:station2})
+    it 'should tell journey to end the journey' do
+      topped
+      oystercard.touch_out(station)
+      expect(oystercard.journey).to receive(:clear_journey)
+      oystercard.touch_out(station2)
     end
+
     it 'should charge penalty fare if touch_in has not been called' do
       oystercard.top_up(5)
       expect{ oystercard.touch_out(station) }.to change{oystercard.balance}.by -6

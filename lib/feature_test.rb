@@ -13,10 +13,12 @@ p oyster.journey.complete?
 #p oyster.in_journey?
 p "Touching in"
  oyster.touch_in(station)
+ p oyster.journey
 p "Complete?"
 p oyster.journey.complete?
 p "Touching out"
 oyster.touch_out(station2)
+p oyster.journey_history
 p "Complete?"
 p oyster.journey.complete?
 p oyster.balance
@@ -35,6 +37,7 @@ p oyster.journey.complete?
 p "Touch out properly this time"
 oyster.touch_out(station2)
 p oyster.balance
+p oyster.journey_history
 
 #-----------------------
 
