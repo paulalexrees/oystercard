@@ -18,10 +18,6 @@ class Journey
   end
 
   def fare
-    if @current_journey[:entry] == nil || @current_journey[:exit] == nil
-      PENALTY_FARE
-    else
-      MIN_FARE
-    end
+    @current_journey.has_value?(nil) ? PENALTY_FARE : MIN_FARE
   end
 end
