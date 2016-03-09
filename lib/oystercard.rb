@@ -24,9 +24,6 @@ DEFAULT_BALANCE = 0
     end
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
 
   def in_journey?
     @in_journey
@@ -52,6 +49,13 @@ DEFAULT_BALANCE = 0
 
 
   end
+
+  private
+
+  def deduct(amount)
+    @balance -= amount
+  end
+
 
 
 

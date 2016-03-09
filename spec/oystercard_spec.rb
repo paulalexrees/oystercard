@@ -30,17 +30,6 @@ describe Oystercard do
 
   end
 
-  describe "#deduct" do
-
-    it 'should deduct money if the journey occurs' do
-      balance1 = oystercard.balance
-      oystercard.deduct(5)
-      balance2 = oystercard.balance
-      expect(balance2 < balance1).to be true
-    end
-
-  end
-
   describe "#journey" do
 
     it 'should verify in journey' do

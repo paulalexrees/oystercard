@@ -1,8 +1,7 @@
-require './lib/oystercard'
+require 'oystercard'
 require './lib/station'
-station = Station.new
+p station = Station.new
 
-p = Station.new
 p oyster = Oystercard.new
 
 p oyster.balance

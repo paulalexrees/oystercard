@@ -135,3 +135,25 @@ customer     see <=> know
 trips
 
 customer <=> know <=> see <=> past trips
+
+
+User Story 10
+----------------------------
+
+Nouns
+- Customer
+- Zone
+- Station
+
+Verbs
+- know
+- is in
+
+object      Message
+---------------------------
+Customer    know
+station     is in
+zone
+
+
+customer => know <=> station => is in zone
