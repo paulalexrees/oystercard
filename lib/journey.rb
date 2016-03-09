@@ -5,6 +5,7 @@ class Journey
   PENALTY_FARE = 6
 
   def initialize
+    # todo: get rid of hash, use @entry, @exit instead
     @current_journey = {entry: nil, exit: nil}
   end
 
