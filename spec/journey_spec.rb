@@ -24,4 +24,15 @@ describe Journey do
     end
   end
 
+  describe '#fare' do
+    it "by default it returns the minimum fare for a journey" do
+      subject.start_journey(station)
+      subject.end_journey(station)
+      expect(subject.fare).to eq 1
+    end
+  end
+    it "applies the penalty fare if entry or exit was not respected" do
+      expect(subject.fare).to eq 6
+    end
+
 end
