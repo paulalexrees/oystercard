@@ -12,6 +12,7 @@ DEFAULT_BALANCE = 0
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @in_journey = false
+    @journey = Journey.new
     @journey_history = []
   end
 
@@ -31,15 +32,15 @@ DEFAULT_BALANCE = 0
   def touch_in(station)
     raise "not enough funds" if @balance < MIN_BALANCE
     @in_journey = true
-    @journey = Journey.new
     @journey.start_journey(station)
-    @journey_history << @journey
+    @journey_history << @journey.dup
   end
 
   def touch_out(station)
     @in_journey = false
     @journey.end_journey(station)
     deduct(@journey.fare)
+    @journey.clear_journey
   end
 
   private

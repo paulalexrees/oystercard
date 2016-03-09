@@ -72,8 +72,7 @@ describe Oystercard do
     it 'should deduct the correct amount for journey' do
       oystercard.top_up(5)
       oystercard.touch_in(station)
-      oystercard.touch_out(station2)
-      expect { oystercard.touch_out(station) }.to change{ oystercard.balance }.by (-1)
+      expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by (-1)
     end
 
     it 'should complete journey history' do
@@ -81,6 +80,11 @@ describe Oystercard do
       oystercard.touch_in(station)
       oystercard.touch_out(station2)
       expect(oystercard.journey_history[0].current_journey[:exit]).to eq(station2)
+    end
+
+    it 'should charge penalty fare if touch_in has not been called' do
+      oystercard.top_up(5)
+      expect{ oystercard.touch_out(station) }.to change{oystercard.balance}.by -6
     end
 
 end

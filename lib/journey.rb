@@ -20,4 +20,9 @@ class Journey
   def fare
     @current_journey.has_value?(nil) ? PENALTY_FARE : MIN_FARE
   end
+
+  def clear_journey
+    @current_journey = {entry: nil, exit: nil}
+  end
+
 end
