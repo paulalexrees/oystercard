@@ -1,8 +1,9 @@
 require 'journey'
 
 describe Journey do
-  subject {described_class.new}
+
   let(:station){double(:station)}
+  subject {described_class.new}
 
   describe "#initialize" do
     it "initializes with a current journey hash" do
@@ -30,9 +31,23 @@ describe Journey do
       subject.end_journey(station)
       expect(subject.fare).to eq 1
     end
-  end
+
     it "applies the penalty fare if entry or exit was not respected" do
       expect(subject.fare).to eq 6
     end
+  end
 
+  describe '#complete?' do
+
+    it "returns true if journey has a start and end station" do
+      subject.start_journey(station)
+      subject.end_journey(station)
+      expect(subject.complete?).to eq true
+    end
+
+    it "returns false if journey is missing a start or end station" do
+      subject.start_journey(station)
+      expect(subject.complete?).to eq false
+    end
+  end
 end

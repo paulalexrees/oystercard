@@ -10,11 +10,11 @@ class Journey
 
   def start_journey(station)
     @current_journey[:entry] = station
-    @current_journey
   end
 
   def end_journey(station)
     @current_journey[:exit] = station
+    @current_journey
   end
 
   def fare
@@ -25,4 +25,7 @@ class Journey
     @current_journey = {entry: nil, exit: nil}
   end
 
+  def complete?
+    @current_journey[:entry].class == @current_journey[:exit].class
+  end
 end

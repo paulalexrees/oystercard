@@ -3,6 +3,8 @@ describe Oystercard do
   subject(:oystercard) { described_class.new }
   let(:station){ double :station }
   let(:station2){ double :station }
+  let(:topped){ allow(oystercard).to receive(:balance){20}}
+  let(:topped_completed) { allow(oystercard).to receive_messages(balance:20, journey:{entry:station, exit:station2})}
 
   describe "#balance" do
 
@@ -42,8 +44,8 @@ describe Oystercard do
 
   describe "#touch in" do
 
-    it 'should confirm touch in' do
-      oystercard.top_up(5)
+    it 'should start a new journey when not in a journey' do
+      topped
       oystercard.touch_in(station)
       expect(oystercard.in_journey?).to be true
     end
@@ -52,20 +54,12 @@ describe Oystercard do
       expect{oystercard.touch_in(station) while true}.to raise_error(RuntimeError)
     end
 
-    it 'should begin journey history with a journey object' do
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      expect(oystercard.journey_history).to include(Journey)
-    end
-
  end
 
   describe "#touch out" do
 
     it 'should confirm touch out' do
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      oystercard.touch_out(station2)
+      topped_completed
       expect(oystercard.in_journey).to be false
     end
 
@@ -75,13 +69,10 @@ describe Oystercard do
       expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by (-1)
     end
 
-    it 'should complete journey history' do
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      oystercard.touch_out(station2)
-      expect(oystercard.journey_history[0].current_journey[:exit]).to eq(station2)
+    xit 'should complete journey history' do
+      topped_completed
+      expect(oystercard.journey_history[0]).to eq({entry:station, exit:station2})
     end
-
     it 'should charge penalty fare if touch_in has not been called' do
       oystercard.top_up(5)
       expect{ oystercard.touch_out(station) }.to change{oystercard.balance}.by -6
