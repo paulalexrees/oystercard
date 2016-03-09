@@ -2,6 +2,8 @@ require 'oystercard'
 describe Oystercard do
   subject(:oystercard) { described_class.new }
   let(:station){ double :station }
+  let(:station2){ double :station }
+
   describe "#balance" do
 
     it 'will begin with a balance of 0' do
@@ -46,14 +48,14 @@ describe Oystercard do
       expect(oystercard.in_journey?).to be true
     end
 
-    it 'should update the entry station' do
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      expect(oystercard.entry_station).to eq station
-    end
-
     it 'should prevent journey if balance is under 1 pound' do
       expect{oystercard.touch_in(station) while true}.to raise_error(RuntimeError)
+    end
+
+    it 'should begin journey history with a journey object' do
+      oystercard.top_up(5)
+      oystercard.touch_in(station)
+      expect(oystercard.journey_history).to include(Journey)
     end
 
  end
@@ -61,22 +63,24 @@ describe Oystercard do
   describe "#touch out" do
 
     it 'should confirm touch out' do
-      oystercard.touch_out(station)
+      oystercard.top_up(5)
+      oystercard.touch_in(station)
+      oystercard.touch_out(station2)
       expect(oystercard.in_journey).to be false
     end
 
-    it 'should update the exit station' do
-      oystercard.touch_out(station)
-      expect(oystercard.exit_station).to eq station
-    end
-
     it 'should deduct the correct amount for journey' do
+      oystercard.top_up(5)
+      oystercard.touch_in(station)
+      oystercard.touch_out(station2)
       expect { oystercard.touch_out(station) }.to change{ oystercard.balance }.by (-1)
     end
 
-    it 'should record journey history' do
-      oystercard.touch_out(station)
-      expect(oystercard.journey_history).to include(oystercard.current_journey)
+    it 'should complete journey history' do
+      oystercard.top_up(5)
+      oystercard.touch_in(station)
+      oystercard.touch_out(station2)
+      expect(oystercard.journey_history[0].current_journey[:exit]).to eq(station2)
     end
 
 end

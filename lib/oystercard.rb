@@ -1,4 +1,5 @@
 require_relative 'station'
+require_relative 'journey'
 
 class Oystercard
 
@@ -11,9 +12,9 @@ DEFAULT_BALANCE = 0
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @in_journey = false
-    @entry_station = ''
-    @exit_station = ''
-    @journey_history =[]
+    #@entry_station = ''
+    #@exit_station = ''
+    @journey_history = []
   end
 
   def top_up(amount)
@@ -30,24 +31,19 @@ DEFAULT_BALANCE = 0
   end
 
   def touch_in(station)
-    if @balance > MIN_BALANCE
-       @in_journey = true
-       @entry_station = station
-       @current_journey
-    else
-      raise "not enough funds"
-    end
+    raise "not enough funds" if @balance < MIN_BALANCE
+    @in_journey = true
+    @journey = Journey.new
+    #@entry_station = station
+    @journey.start_journey(station)
+    @journey_history << @journey
   end
 
   def touch_out(station)
     deduct(MIN_BALANCE)
     @in_journey = false
-    @exit_station = station
-    @current_journey = { @entry_station => @exit_station }
-    @journey_history << @current_journey
-
-
-
+    @journey.end_journey(station)
+    #@exit_station = station
   end
 
   private
