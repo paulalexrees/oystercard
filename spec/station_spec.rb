@@ -6,10 +6,10 @@ subject(:station) { described_class.new("bond", 1) }
 
   describe '#initialize' do
     it 'initializes a station with name' do
-      expect(station.name).to be_a String
+      expect(station.name).to eq "bond"
     end
     it 'initializes a station with a zone' do
-      expect(station.zone).to be_a Integer
+      expect(station.zone).to eq 1
     end
   end
 end
