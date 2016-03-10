@@ -71,6 +71,7 @@ describe Oystercard do
     end
 
     it 'charges penalty fare if touch_in has not been called' do
+      #needs to go into Journey class
       oystercard.top_up(5)
       expect{ oystercard.touch_out(station) }.to change{oystercard.balance}.by -6
     end

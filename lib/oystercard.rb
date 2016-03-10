@@ -5,7 +5,7 @@ class Oystercard
 
 attr_reader :balance, :journey, :in_journey, :current_journey, :journey_history
 
-MIN_BALANCE = 1
+MIN_FARE = 1
 MAX_BALANCE = 90
 DEFAULT_BALANCE = 0
 
@@ -22,7 +22,7 @@ DEFAULT_BALANCE = 0
   end
 
   def touch_in(station)
-    raise "not enough funds" if balance < MIN_BALANCE
+    raise "not enough funds" if balance < MIN_FARE
     if journey.complete?
       @in_journey = true
       journey.start_journey(station)
