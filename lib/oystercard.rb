@@ -12,7 +12,6 @@ DEFAULT_BALANCE = 0
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @in_journey = false
-    @journey = Journey.new
     @journey_history = []
   end
 
@@ -21,31 +20,19 @@ DEFAULT_BALANCE = 0
       @balance += amount
   end
 
-  def touch_in(station)
+  def touch_in(station, journey_class = Journey.new)
     raise "not enough funds" if balance < MIN_FARE
-    if journey.complete?
-      @in_journey = true
-      journey.start_journey(station)
-    else
-      deduct(journey.fare)
-      journey.clear_journey
-      touch_in(station)
-    end
+    touch_out("Penalty") if !!journey
+    @journey = journey_class
+    journey.start_journey(station)
   end
 
   def touch_out(station)
-    if journey.current_journey[:entry] != nil
-      journey.end_journey(station)
-      @in_journey = false
-      deduct(journey.fare)
-      @journey_history << journey.dup
-      journey.clear_journey
-    else
-      journey.end_journey(station)
-      deduct(journey.fare)
-      @journey_history << journey.dup
-      journey.clear_journey
-    end
+      #journey.end_journey(station)
+      #@in_journey = false
+      #deduct(journey.fare)
+      # @journey_history << journey.dup
+      # journey.clear_journey
   end
 
   def in_journey?

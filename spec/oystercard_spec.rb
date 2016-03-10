@@ -6,6 +6,7 @@ describe Oystercard do
   let(:station2){ double :station }
   let(:topped){ allow(oystercard).to receive(:balance){20}}
   let(:topped_completed) { allow(oystercard).to receive_messages(balance:20, journey:{entry:station, exit:station2})}
+  let(:journey_start) { allow(journey).to receive_messages(start_journey: nil) }
 
   describe "#balance" do
 
@@ -37,10 +38,23 @@ describe Oystercard do
 
   describe "#touch in" do
 
-    it 'tells journey to start a new journey' do
+    it 'creates a new journey on touching in' do
       topped
-      expect(oystercard.journey).to receive(:start_journey)
-      oystercard.touch_in(station)
+      expect{ oystercard.touch_in(station) }.to change{ oystercard.journey }.to be_a(Journey)
+    end
+
+    it 'gives journey an entry station' do
+      topped
+      expect(journey).to receive(:start_journey).with(station)
+      oystercard.touch_in(station, journey)
+    end
+
+    it 'ends previous journey if already in one' do
+      topped
+      journey_start
+      oystercard.touch_in(station, journey)
+      expect(oystercard).to receive(:touch_out).with("Penalty")
+      oystercard.touch_in(station, journey)
     end
 
     it 'prevents journey if balance is under 1 pound' do
@@ -58,9 +72,10 @@ describe Oystercard do
     end
 
     it 'deducts the correct amount for journey' do
+      #needs to go to Journey class
       oystercard.top_up(5)
       oystercard.touch_in(station)
-      expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by (-1)
+      expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
     end
 
     it 'tells journey to end the journey' do
