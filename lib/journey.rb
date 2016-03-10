@@ -1,32 +1,23 @@
 class Journey
 
-  attr_reader :current_journey
+  attr_reader :entry_station, :exit_station
   MIN_FARE = 1
   PENALTY_FARE = 6
 
   def initialize
-    # todo: get rid of hash, use @entry, @exit instead
-    @current_journey = {entry: nil, exit: nil}
+    # todo: init with entry_station - change in oystercard class
   end
 
-  def start_journey(station)
-    @current_journey[:entry] = station
+  def start station
+    @entry_station = station
   end
 
-  def end_journey(station)
-    @current_journey[:exit] = station
-    @current_journey
+  def finish station
+    @exit_station = station
   end
 
   def fare
-    @current_journey.has_value?(nil) ? PENALTY_FARE : MIN_FARE
+    (entry_station == :penalty || exit_station == :penalty) ? PENALTY_FARE : MIN_FARE
   end
 
-  def clear_journey
-    @current_journey = {entry: nil, exit: nil}
-  end
-
-  def complete?
-    @current_journey[:entry].class == @current_journey[:exit].class
-  end
 end

@@ -40,7 +40,7 @@ describe Oystercard do
 
     it 'ends previous journey if already in one' do
       oystercard.touch_in(station, journey)
-      expect(oystercard).to receive(:touch_out).with("Penalty")
+      expect(oystercard).to receive(:touch_out).with(:penalty)
       oystercard.touch_in(station, journey)
     end
 

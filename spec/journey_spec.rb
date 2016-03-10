@@ -2,52 +2,33 @@ require 'journey'
 
 describe Journey do
 
-  let(:station){double(:station)}
-  subject {described_class.new}
-
-  describe "#initialize" do
-    it "initializes with a current journey hash" do
-      expect(subject.current_journey).to eq({entry: nil, exit: nil})
-    end
-  end
+  let(:station){ double(:station) }
+  subject(:journey) { described_class.new }
 
   describe "#start_journey" do
-    it "updates current_journey with entry station" do
-      subject.start_journey(station)
-      expect(subject.current_journey[:entry]).not_to be nil
+    it "updates entry_station with entry station" do
+      expect{ journey.start(station) }.to change{ journey.entry_station }.to(station)
     end
   end
 
   describe "#end_journey" do
-    it "updates current_journey with exit station" do
-      subject.end_journey(station)
-      expect(subject.current_journey[:exit]).not_to be nil
+    it "updates exit_station with exit station" do
+      expect{ journey.finish(station) }.to change{ journey.exit_station }.to(station)
     end
   end
 
   describe '#fare' do
-    it "by default it returns the minimum fare for a journey" do
-      subject.start_journey(station)
-      subject.end_journey(station)
-      expect(subject.fare).to eq 1
+    it "returns the minimum fare for a complete journey" do
+      journey.start(station)
+      journey.finish(station)
+      expect(journey.fare).to eq Journey::MIN_FARE
+      # GET RID OF MIN_FARE FROM OYSTERCARD
     end
 
-    it "applies the penalty fare if entry or exit was not respected" do
-      expect(subject.fare).to eq 6
-    end
-  end
-
-  describe '#complete?' do
-
-    it "returns true if journey has a start and end station" do
-      subject.start_journey(station)
-      subject.end_journey(station)
-      expect(subject.complete?).to eq true
-    end
-
-    it "returns false if journey is missing a start or end station" do
-      subject.start_journey(station)
-      expect(subject.complete?).to eq false
+    it "returns a penalty fare for an incomplete journey" do
+      journey.finish(:penalty)
+      expect(journey.fare).to eq Journey::PENALTY_FARE
     end
   end
+
 end
