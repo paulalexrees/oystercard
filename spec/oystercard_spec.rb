@@ -1,12 +1,12 @@
 require 'oystercard'
 
 describe Oystercard do
+  min_fare = Journey::MIN_FARE
   subject(:oystercard) { described_class.new(20)}
-  let(:journey){ double(:journey, start_journey: nil, end_journey: nil, fare: Oystercard::MIN_FARE) }
+  let(:journey){ double(:journey, start: nil, finish: nil, fare: min_fare) }
   let(:station){ double :station }
   let(:station2){ double :station }
   let(:zero_balance){ allow(oystercard).to receive(:balance){0}}
-  let(:topped_completed) { allow(oystercard).to receive_messages(balance:20, journey:{entry:station, exit:station2})}
 
   describe "#balance" do
     it 'begins with a balance of 0' do
@@ -34,7 +34,7 @@ describe Oystercard do
 
   describe "#touch in" do
     it 'gives journey an entry station' do
-      expect(journey).to receive(:start_journey).with(station)
+      expect(journey).to receive(:start).with(station)
       oystercard.touch_in(station, journey)
     end
 
@@ -54,7 +54,7 @@ describe Oystercard do
     before { oystercard.touch_in(station, journey) }
 
     it 'tells journey to end the journey' do
-      expect(journey).to receive(:end_journey).with(station)
+      expect(journey).to receive(:finish).with(station)
       oystercard.touch_out(station)
     end
 
@@ -65,11 +65,5 @@ describe Oystercard do
     it 'needs to add journey to history' do
       expect { oystercard.touch_out(station2) }.to change{ oystercard.journey_history }.to include journey
     end
-
-    # MOVE TO JOURNEY
-    # it 'charges penalty fare if touch_in has not been called' do
-    #   oystercard.top_up(5)
-    #   expect{ oystercard.touch_out(station) }.to change{oystercard.balance}.by -6
-    # end
   end
 end

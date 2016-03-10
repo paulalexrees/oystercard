@@ -4,7 +4,6 @@ require_relative 'journey'
 class Oystercard
 attr_reader :balance, :journey_history
 
-MIN_FARE = 1
 MAX_BALANCE = 90
 DEFAULT_BALANCE = 0
 
@@ -18,15 +17,15 @@ DEFAULT_BALANCE = 0
       @balance += amount
   end
 
-  def touch_in(station, journey_class = Journey.new)
-    raise "not enough funds" if balance < MIN_FARE
+  def touch_in(station, journey_class=Journey.new)
+    raise "not enough funds" if balance < Journey::MIN_FARE
     touch_out(:penalty) if !!journey
     @journey = journey_class
-    journey.start_journey(station)
+    journey.start station
   end
 
   def touch_out station
-    journey.end_journey(station)
+    journey.finish station
     deduct journey.fare
     log journey
   end

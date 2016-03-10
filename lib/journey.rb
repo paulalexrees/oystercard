@@ -4,10 +4,6 @@ class Journey
   MIN_FARE = 1
   PENALTY_FARE = 6
 
-  def initialize
-    # todo: init with entry_station - change in oystercard class
-  end
-
   def start station
     @entry_station = station
   end
@@ -17,7 +13,12 @@ class Journey
   end
 
   def fare
-    (entry_station == :penalty || exit_station == :penalty) ? PENALTY_FARE : MIN_FARE
+    penalty_due? ? PENALTY_FARE : MIN_FARE
   end
 
+  private
+
+  def penalty_due?
+    entry_station == :penalty || exit_station == :penalty
+  end
 end
