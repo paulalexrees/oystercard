@@ -65,10 +65,11 @@ describe Oystercard do
 
   describe "#touch out" do
 
-    it 'resets journey on touch out' do
+    it 'tells journey to end the journey' do
       topped
-      expect(oystercard.journey).to receive(:clear_journey)
       oystercard.touch_out(station)
+      expect(oystercard.journey).to receive(:clear_journey)
+      oystercard.touch_out(station2)
     end
 
     it 'deducts the correct amount for journey' do
@@ -76,13 +77,6 @@ describe Oystercard do
       oystercard.top_up(5)
       oystercard.touch_in(station)
       expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by -(Oystercard::MIN_FARE)
-    end
-
-    it 'tells journey to end the journey' do
-      topped
-      oystercard.touch_out(station)
-      expect(oystercard.journey).to receive(:clear_journey)
-      oystercard.touch_out(station2)
     end
 
     it 'charges penalty fare if touch_in has not been called' do

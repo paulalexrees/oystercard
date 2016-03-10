@@ -28,7 +28,8 @@ DEFAULT_BALANCE = 0
   end
 
   def touch_out(station)
-      #journey.end_journey(station)
+
+          #journey.end_journey(station)
       #@in_journey = false
       #deduct(journey.fare)
       # @journey_history << journey.dup
