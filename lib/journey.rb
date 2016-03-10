@@ -4,6 +4,11 @@ class Journey
   MIN_FARE = 1
   PENALTY_FARE = 6
 
+  def initialize
+    @entry_station = :penalty
+    @exit_station = :penalty
+  end
+
   def start station
     @entry_station = station
   end

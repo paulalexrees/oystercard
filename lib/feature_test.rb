@@ -13,8 +13,8 @@ oyster.top_up(40)
 
 log = Journeylog.new(journey_klass: Journey)
 
- p log.finish(station)
- #p log.start(station2)
- #p log.finish(station3)
+ p log.start(station)
+ p log.start(station2)
+ p log.finish(station3)
 p log.journeys
 #p log.journeys[1]

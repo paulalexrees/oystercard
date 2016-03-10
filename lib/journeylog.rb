@@ -22,20 +22,15 @@ class Journeylog
     @journey = nil
   end
 
-
   private
   attr_reader :journey_class, :current_journey, :journey
 
   def current_journey
-    @journey = journey.nil? ? journey_class.new : journey
+    @journey = journey || journey_class.new
   end
 
   def log journey1
     @journeys << journey1
-  end
-
-  def penalty
-
   end
 
 end
