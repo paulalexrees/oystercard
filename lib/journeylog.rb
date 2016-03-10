@@ -11,12 +11,15 @@ class Journeylog
 
   def start station
     finish(:penalty) if !!@journey
-    @journey = current_journey
+    current_journey
     @journey.start station
   end
 
   def finish station
-
+    current_journey
+    @journey.finish station
+    log @journey
+    @journey = nil
   end
 
 
@@ -24,10 +27,15 @@ class Journeylog
   attr_reader :journey_class, :current_journey, :journey
 
   def current_journey
-    if journey.nil?
-      journey_class.new
-    else
-      journey
-    end
+    @journey = journey.nil? ? journey_class.new : journey
   end
+
+  def log journey1
+    @journeys << journey1
+  end
+
+  def penalty
+
+  end
+
 end

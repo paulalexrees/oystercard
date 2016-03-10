@@ -20,10 +20,21 @@ describe Journeylog do
   end
 
   describe '#finish' do
+    it 'gives journey an exit station' do
+      expect(journey).to receive(:finish).with(station)
+      log.finish(station)
+    end
 
+    it 'stores previous journey if already in one' do
+
+    end
   end
 
   describe '#fare' do
+
+  end
+
+  describe '#journeys' do
 
   end
 end
