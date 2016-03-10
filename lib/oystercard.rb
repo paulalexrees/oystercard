@@ -19,15 +19,15 @@ DEFAULT_BALANCE = 0
 
   def touch_in(station, journey_class=Journey.new)
     raise "not enough funds" if balance < Journey::MIN_FARE
-    touch_out(:penalty) if !!journey
-    @journey = journey_class
-    journey.start station
+    # touch_out(:penalty) if !!journey
+    # @journey = journey_class
+    journey.start
   end
 
   def touch_out station
     journey.finish station
-    deduct journey.fare
-    log journey
+    deduct journey.fare # => HANDLED BY JOURNEY LOG
+    # log journey
   end
 
   private
