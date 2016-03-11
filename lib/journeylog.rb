@@ -10,7 +10,7 @@ class Journeylog
   end
 
   def start station
-    finish(:penalty) if !!@journey
+    finish(:nil) if !!@journey
     current_journey
     @journey.start station
   end

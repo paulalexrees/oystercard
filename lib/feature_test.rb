@@ -13,7 +13,6 @@ oyster.touch_in(station)
 oyster.touch_out(station3)
 p oyster.balance
 p oyster.journeylog.journeys
-oyster.touch_in(station3)
 oyster.touch_out(station2)
 p oyster.balance
 p oyster.journeylog.journeys

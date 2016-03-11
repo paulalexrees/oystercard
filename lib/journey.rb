@@ -5,8 +5,8 @@ class Journey
   PENALTY_FARE = 6
 
   def initialize
-    @entry_station = :penalty
-    @exit_station = :penalty
+    @entry_station = :nil
+    @exit_station = :nil
   end
 
   def start station
@@ -22,13 +22,13 @@ class Journey
   end
 
   def zone_change
-    (entry_station.zone - exit_station.zone).abs + 1
+    (entry_station.zone - exit_station.zone).abs + MIN_FARE
   end
 
   private
 
   def penalty_due?
-    entry_station == :penalty || exit_station == :penalty
+    entry_station == :nil || exit_station == :nil
   end
 
 

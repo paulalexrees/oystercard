@@ -19,6 +19,28 @@ describe Journey do
     end
   end
 
+  describe "#start" do
+    it 'sets entry_station to given station' do
+      journey.start(station)
+      expect(journey.entry_station).to eq(station)
+    end
+  end
+
+  describe "#finish" do
+    it 'sets exit_station to given station' do
+      journey.finish(station)
+      expect(journey.finish(station)).to eq(station)
+    end
+  end
+
+  describe "#zone_change" do
+    it 'returns minimum fare plus an extra £1 for every zone crossed' do
+      journey.start(station)
+      journey.finish(station2)
+      expect(journey.zone_change).to eq 2
+    end
+  end
+
   describe '#fare' do
     it "returns the minimum fare for a complete journey" do
       journey.start(station)
@@ -27,7 +49,7 @@ describe Journey do
     end
 
     it "returns a penalty fare for an incomplete journey" do
-      journey.finish(:penalty)
+      journey.finish(:nil)
       expect(journey.fare).to eq penalty_fare
     end
 
