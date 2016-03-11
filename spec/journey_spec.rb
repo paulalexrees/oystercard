@@ -20,6 +20,7 @@ describe Journey do
 
   describe '#fare' do
     it "returns the minimum fare for a complete journey" do
+      journey.start(station)
       journey.finish(station)
       expect(journey.fare).to eq min_fare
     end
