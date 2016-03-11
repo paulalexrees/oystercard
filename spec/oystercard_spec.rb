@@ -7,7 +7,7 @@ describe Oystercard do
   let(:station){ double :station }
   let(:station2){ double :station }
   let(:zero_balance){ allow(oystercard).to receive(:balance){0}}
-  let(:journeylog) { double :journeylog }
+  let(:jlog) { double :journeylog, journey: journey, finish: nil }
 
   describe "#balance" do
     it 'begins with a balance of 0' do
@@ -40,7 +40,7 @@ describe Oystercard do
 
   describe "#touch in" do
     it 'tells journeylog to start a journey' do
-      allow(oystercard).to receive(:journeylog).and_return(journeylog)
+      allow(oystercard).to receive(:journeylog).and_return(jlog)
       expect(oystercard.journeylog).to receive(:start).with(station)
       oystercard.touch_in(station)
     end
@@ -48,9 +48,14 @@ describe Oystercard do
 
   describe "#touch out" do
     it 'tells journeylog to finish a journey' do
-      allow(oystercard).to receive(:journeylog).and_return(journeylog)
+      allow(oystercard).to receive(:journeylog).and_return(jlog)
       expect(oystercard.journeylog).to receive(:finish).with(station)
       oystercard.touch_out(station)
+    end
+
+    it 'deducts a fare' do
+      allow(oystercard).to receive(:journeylog).and_return(jlog)
+      expect { oystercard.touch_out(station2) }.to change{ oystercard.balance }.by -(journey.fare)
     end
   end
 end

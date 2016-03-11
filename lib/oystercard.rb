@@ -26,6 +26,7 @@ DEFAULT_BALANCE = 0
 
   def touch_out(station)
     journeylog.finish(station)
+    deduct(journeylog.journey.fare)
   end
 
   private
