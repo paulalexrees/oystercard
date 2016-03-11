@@ -26,7 +26,7 @@ class Journeylog
   attr_reader :journey_class, :current_journey
 
   def current_journey
-    @journey = journey || journey_class.new
+    @journey = journey || @journey = @journey_class.new
   end
 
   def log journey1

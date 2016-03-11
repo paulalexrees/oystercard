@@ -26,4 +26,6 @@ class Journey
   def penalty_due?
     entry_station == :penalty || exit_station == :penalty
   end
+
+
 end

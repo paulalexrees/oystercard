@@ -10,8 +10,7 @@ DEFAULT_BALANCE = 0
 
   def initialize(balance=DEFAULT_BALANCE, journeylog = Journeylog)
     @balance = balance
-    @journey_history = []
-    @journeylog = journeylog
+    @journeylog = journeylog.new(journey_klass: Journey)
   end
 
   def top_up amount
@@ -21,12 +20,13 @@ DEFAULT_BALANCE = 0
 
   def touch_in(station)
     raise "not enough funds" if balance < Journey::MIN_FARE
+    deduct(journeylog.journey.fare) if journeylog.journey
     journeylog.start(station)
   end
 
   def touch_out(station)
     journeylog.finish(station)
-    deduct(journeylog.journey.fare)
+    deduct(journeylog.journeys.last.fare)
   end
 
   private
@@ -36,7 +36,4 @@ DEFAULT_BALANCE = 0
     @balance -= amount
   end
 
-  def log journey
-    @journey_history << journey
-  end
 end

@@ -9,12 +9,9 @@ station3 = Station.new(name:"Bank", zone: 3)
 oyster = Oystercard.new
 
 oyster.top_up(40)
-#oyster.touch_in(station)
-
-log = Journeylog.new(journey_klass: Journey)
-
- p log.start(station)
- p log.start(station2)
- p log.finish(station3)
-p log.journeys
-#p log.journeys[1]
+oyster.touch_out(station)
+p oyster.balance
+p oyster.journeylog.journeys
+oyster.touch_out(station2)
+p oyster.balance
+p oyster.journeylog.journeys

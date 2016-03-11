@@ -7,7 +7,7 @@ describe Oystercard do
   let(:station){ double :station }
   let(:station2){ double :station }
   let(:zero_balance){ allow(oystercard).to receive(:balance){0}}
-  let(:jlog) { double :journeylog, journey: journey, finish: nil }
+  let(:jlog) { double :journeylog, journey: journey, finish: nil, journeys:[journey] }
 
   describe "#balance" do
     it 'begins with a balance of 0' do
