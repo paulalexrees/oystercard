@@ -3,7 +3,7 @@ require 'journeylog'
 describe Journeylog do
   let(:journey) { double(:Journey, start: nil) }
   let(:journey_class) { double(:Journey_class, new: journey) }
-  subject(:log) { described_class.new(journey_klass: journey_class) }
+  subject(:log) { described_class.new(journey_class: journey_class) }
   let(:station) { double(:Station) }
 
   describe '#start' do

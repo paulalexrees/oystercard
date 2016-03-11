@@ -2,10 +2,10 @@ require_relative 'journey'
 
 class Journeylog
 
-  attr_reader :journeys, :journey
+  attr_reader :journey
 
-  def initialize(journey_klass: )
-    @journey_class = journey_klass
+  def initialize(journey_class:)
+    @journey_class = journey_class
     @journeys = []
   end
 
@@ -19,18 +19,21 @@ class Journeylog
     current_journey
     @journey.finish station
     log @journey
-    @journey = nil
+  end
+
+  def journeys
+    @journeys.dup
   end
 
   private
-  attr_reader :journey_class, :current_journey
 
   def current_journey
     @journey = journey || @journey = @journey_class.new
   end
 
-  def log journey1
-    @journeys << journey1
+  def log journey
+    @journeys << journey
+    @journey = nil
   end
 
 end

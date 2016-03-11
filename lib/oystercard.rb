@@ -1,21 +1,18 @@
-require_relative 'station'
-require_relative 'journey'
-require_relative 'journeylog'
-
 class Oystercard
-attr_reader :balance, :journey_history, :journeylog
+
+attr_reader :balance, :journeylog
 
 MAX_BALANCE = 90
 DEFAULT_BALANCE = 0
 
-  def initialize(balance=DEFAULT_BALANCE, journeylog = Journeylog)
-    @balance = balance
-    @journeylog = journeylog.new(journey_klass: Journey)
+  def initialize(journeylog = Journeylog)
+    @balance = DEFAULT_BALANCE
+    @journeylog = journeylog.new(journey_class: Journey)
   end
 
-  def top_up amount
-    raise "exceeded max top up" if @balance + amount > MAX_BALANCE
-      @balance += amount
+  def top_up(amount)
+    raise "exceeded max top up" if card_total(amount) > MAX_BALANCE
+    @balance += amount
   end
 
   def touch_in(station)
@@ -30,10 +27,13 @@ DEFAULT_BALANCE = 0
   end
 
   private
-  attr_reader :journey
 
   def deduct amount
     @balance -= amount
+  end
+
+  def card_total(amount)
+    @balance + (amount)
   end
 
 end

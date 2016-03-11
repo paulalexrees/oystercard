@@ -2,12 +2,15 @@ require 'oystercard'
 
 describe Oystercard do
   min_fare = Journey::MIN_FARE
-  subject(:oystercard) { described_class.new(20)}
+  subject(:oystercard) { described_class.new}
   let(:journey){ double(:journey, start: nil, finish: nil, fare: min_fare) }
   let(:station){ double :station }
   let(:station2){ double :station }
-  let(:zero_balance){ allow(oystercard).to receive(:balance){0}}
   let(:jlog) { double :journeylog, journey: journey, finish: nil, journeys:[journey] }
+
+  before(:each) do
+    oystercard.top_up(20)
+  end
 
   describe "#balance" do
     it 'begins with a balance of 0' do
@@ -34,8 +37,8 @@ describe Oystercard do
   end
 
     it 'prevents journey if balance is under 1 pound' do
-      zero_balance
-      expect{oystercard.touch_in(station) while true}.to raise_error(RuntimeError)
+      o = Oystercard.new
+      expect{o.touch_in(station) while true}.to raise_error(RuntimeError)
     end
 
   describe "#touch in" do
